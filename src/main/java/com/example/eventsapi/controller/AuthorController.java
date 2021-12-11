@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("authors")
 public class AuthorController {
@@ -17,15 +17,13 @@ public class AuthorController {
     @Autowired
     private PasswordEncoder pswEncoder;
 
-    @PostMapping("insert")
+    @PostMapping("")
     public AuthorModel insert(@RequestBody AuthorModel author){
         return authorService.insert(author);
     }
 
-    @RequestMapping(
-            value = "/findonebyslug",
-            method = {RequestMethod.GET})
-    public AuthorModel findOneBySlug (String slug){
+    @GetMapping(value = "")
+    public AuthorModel findOneBySlug (@RequestParam String slug){
         return  authorService.findOneBySlug(slug);
     }
 
@@ -34,4 +32,8 @@ public class AuthorController {
         author.setPassword(pswEncoder.encode(author.getPassword()));
         return authorService.insert(author);
     }
+
+    @GetMapping(value = "", params = "username")
+    public AuthorModel findOneByUsernameOrEmail(@RequestParam String username){
+        return authorService.findOneByUsernameOrEmail(username);}
 }

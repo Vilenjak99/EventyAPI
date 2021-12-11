@@ -13,10 +13,8 @@ import java.util.List;
 public class AuthorModel {
     @Id
     private String id;
-    @Field("first_name")
-    private String firstname;
-    @Field("last_name")
-    private String lastname;
+    @Field("email")
+    private String email;
     @Field("username")
     private String username;
     @Field("password")

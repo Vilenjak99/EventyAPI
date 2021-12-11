@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -21,10 +23,13 @@ public class AuthorService implements IAuthorService, UserDetailsService {
     private IAuthorsRepository authorsRepository;
     @Autowired
     private TagsService tagsService;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public AuthorModel insert(AuthorModel author) {
-        String slug = ((author.getFirstname() + "-" + author.getLastname()).toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]", "-"));
+        author.setPassword(encoder.encode(author.getPassword()));
+        String slug = ((author.getUsername() + "-" + author.getDateOfBirth()).toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]", "-"));
         List<AuthorModel> authors = authorsRepository.findAllBySlug(slug);
 
         if(authors.size()>0){
@@ -33,7 +38,6 @@ public class AuthorService implements IAuthorService, UserDetailsService {
             author.setSlug(slug);
         }
 
-        author.setUsername(author.getSlug());
 
         List<TagModel> tags = tagsService.getAuthorTags(author);
         author.setTags(tags);
@@ -60,5 +64,10 @@ public class AuthorService implements IAuthorService, UserDetailsService {
 
         List authorities = Arrays.asList(new SimpleGrantedAuthority("user"));
         return new User(author.getUsername(),author.getPassword(),authorities);
+    }
+
+    @Override
+    public AuthorModel findOneByUsernameOrEmail(String username){
+        return authorsRepository.findOneByUsernameOrEmail(username,username);
     }
 }

@@ -8,4 +8,5 @@ public interface IAuthorService {
     AuthorModel insert(AuthorModel event);
     AuthorModel findOneBySlug(String slug);
     List<AuthorModel> findAll();
+    AuthorModel findOneByUsernameOrEmail(String username);
 }
