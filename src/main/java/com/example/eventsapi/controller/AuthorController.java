@@ -1,9 +1,7 @@
 package com.example.eventsapi.controller;
 
 import com.example.eventsapi.model.AuthorModel;
-import com.example.eventsapi.model.EventModel;
 import com.example.eventsapi.service.AuthorService;
-import com.example.eventsapi.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +20,19 @@ public class AuthorController {
         return authorService.insert(author);
     }
 
-    @GetMapping(value = "")
-    public AuthorModel findOneBySlug (@RequestParam String slug){
+    @GetMapping(value = "", params = "slug")
+    public AuthorModel findOneBySlug(@RequestParam("slug") String slug){
         return  authorService.findOneBySlug(slug);
+    }
+
+    @GetMapping(value = "", params = "username")
+    public AuthorModel findOneByUsername(@RequestParam("username") String username){
+        return  authorService.findOneByUsername(username);
+    }
+
+    @GetMapping(value = "", params = "email")
+    public AuthorModel findOneByEmail(@RequestParam("email") String email){
+        return  authorService.findOneByEmail(email);
     }
 
     @PostMapping("register")
@@ -33,7 +41,12 @@ public class AuthorController {
         return authorService.insert(author);
     }
 
-    @GetMapping(value = "", params = "username")
-    public AuthorModel findOneByUsernameOrEmail(@RequestParam String username){
-        return authorService.findOneByUsernameOrEmail(username);}
+    @GetMapping(value = "")
+    public AuthorModel findOneByUsernameOrEmail(@RequestParam("username") String username, @RequestParam("password") String password){
+        AuthorModel user =  authorService.findOneByUsernameOrEmail(username);
+        if(user != null){
+            if(pswEncoder.matches(password, user.getPassword())) {return user;}
+        }
+    return null;
+    }
 }

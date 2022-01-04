@@ -17,7 +17,7 @@ public class TagsService implements ITagsService {
     public List<TagModel> getAuthorTags(AuthorModel model) {
         tags = new ArrayList<TagModel>();
 
-        name = model.getUsername()+" "+model.getDateOfBirth();
+        name = model.getUsername()+" "+model.getDateCreated();
         tags.add(createTag(name));
         return tags;
     }
@@ -29,7 +29,7 @@ public class TagsService implements ITagsService {
         name = event.getEventLocalization().getTitle();
         tags.add(createTag(name));
 
-        name = event.getAuthor().getUsername() + " " + event.getAuthor().getDateOfBirth();
+        name = event.getAuthor().getUsername() + " " + event.getAuthor().getDateCreated();
         tags.add(createTag(name));
 
         name = event.getEventLocalization().getCulture();

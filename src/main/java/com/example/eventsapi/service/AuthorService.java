@@ -29,7 +29,7 @@ public class AuthorService implements IAuthorService, UserDetailsService {
     @Override
     public AuthorModel insert(AuthorModel author) {
         author.setPassword(encoder.encode(author.getPassword()));
-        String slug = ((author.getUsername() + "-" + author.getDateOfBirth()).toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]", "-"));
+        String slug = ((author.getUsername() + "-" + author.getDateCreated()).toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]", "-"));
         List<AuthorModel> authors = authorsRepository.findAllBySlug(slug);
 
         if(authors.size()>0){
@@ -51,13 +51,22 @@ public class AuthorService implements IAuthorService, UserDetailsService {
     }
 
     @Override
+    public AuthorModel findOneByEmail(String email) {
+        return authorsRepository.findOneByEmail(email);
+    }
+
+    @Override
+    public AuthorModel findOneByUsername(String username) {
+        return authorsRepository.findOneByUsername(username);
+    }
+    @Override
     public List<AuthorModel> findAll() {
         return null;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthorModel author = authorsRepository.findByUsername(username);
+        AuthorModel author = authorsRepository.findOneByUsername(username);
         if(author==null){
             throw  new UsernameNotFoundException("Author not found");
         }

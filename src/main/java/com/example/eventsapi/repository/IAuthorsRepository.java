@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface IAuthorsRepository extends MongoRepository<AuthorModel, String> {
     AuthorModel findBySlug(String slug);
-    AuthorModel findByUsername(String username);
-    //{ $or: [ { <expression1> }, { <expression2> }, ... , { <expressionN> } ] }
+    AuthorModel findOneByUsername(String username);
+    AuthorModel findOneByEmail(String email);
     @Query("{$or:[{'username' : :#{#username}}, {'email' : :#{#email}}]}")
     AuthorModel findOneByUsernameOrEmail(String username, String email);
     AuthorModel insert(AuthorModel author);

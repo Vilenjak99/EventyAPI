@@ -23,6 +23,6 @@ public class AuthorModel {
     private String slug;
     @Field("tags")
     private List<TagModel> tags;
-    @Field("date_of_birth")
-    private Date dateOfBirth;
+    @Field("date_created")
+    private Date dateCreated;
 }

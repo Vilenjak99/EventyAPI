@@ -20,8 +20,6 @@ public class EventService implements IEventService{
     private EventLocalizationService eventLocalizationService;
     @Autowired
     private TagsService tagsService;
-    @Autowired
-    private AuthorService authorService;
 
     @Override
     public EventModel insert(EventModel event) {
@@ -34,10 +32,6 @@ public class EventService implements IEventService{
         }
         event.setSlug(slug);
         event.getEventLocalization().setEventSlug(slug);
-
-        if(event.getAuthor().getSlug()==null){
-            event.setAuthor(authorService.insert(event.getAuthor()));
-        }
 
         //TAG
         event.setTags(tagsService.getEventTags(event));
