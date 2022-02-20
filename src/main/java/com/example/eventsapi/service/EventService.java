@@ -1,5 +1,6 @@
 package com.example.eventsapi.service;
 
+import com.example.eventsapi.model.AuthorModel;
 import com.example.eventsapi.model.EventModel;
 import com.example.eventsapi.model.TagModel;
 import com.example.eventsapi.repository.IEventsRepository;
@@ -53,6 +54,11 @@ public class EventService implements IEventService{
     public List<EventModel> findAllByTags(String tagName) {
         String tagNameSearch = tagName.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]", "-");
         return eventsRepository.findAllByTags(tagNameSearch);
+    }
+
+    @Override
+    public List<EventModel> findAllByAuthor(String author) {
+        return eventsRepository.findAllByAuthor(author);
     }
 
     @Override

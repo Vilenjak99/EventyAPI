@@ -26,7 +26,7 @@ public class VisitService implements IVisitService{
     }
 
     @Override
-    public List<VisitModel> findAllByDate(Date date) {
+    public List<VisitModel> findAllByDate(String date) {
         return visitsRepository.findAllByDate(date);
     }
 
@@ -38,5 +38,10 @@ public class VisitService implements IVisitService{
     @Override
     public List<VisitModel> findAllByUser(AuthorModel user) {
         return visitsRepository.findAllByUser(user);
+    }
+
+    @Override
+    public VisitModel findLatestVisitForGivenParameters(String user, String event) {
+        return visitsRepository.findLatestVisitForGivenParameters(user,event);
     }
 }
