@@ -14,6 +14,8 @@ public interface IEventsRepository extends MongoRepository<EventModel, String> {
 
     @Query(value="{'tags.name_srch' : ?0}")
     List<EventModel> findAllByTags(String tag);
+    @Query(value = "{'author.username': :#{#username}}")
+    List<EventModel> findAllByAuthor(String username);
     EventModel findOneBySlug(String slug);
     EventModel insert(EventModel event);
     @Query(value="{'slug' : $0}", delete = true)

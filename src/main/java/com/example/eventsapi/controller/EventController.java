@@ -1,5 +1,6 @@
 package com.example.eventsapi.controller;
 
+import com.example.eventsapi.model.AuthorModel;
 import com.example.eventsapi.model.EventModel;
 import com.example.eventsapi.model.TagModel;
 import com.example.eventsapi.service.EventService;
@@ -35,6 +36,10 @@ public class EventController {
     }
 
     @GetMapping (value = "", params = "tag")
-    public List<EventModel> findByTag(@RequestParam String tag){return eventService.findAllByTags(tag);}
+    public List<EventModel> findAllByTag(@RequestParam String tag){return eventService.findAllByTags(tag);}
+
+    @GetMapping (value = "", params = "author")
+    public List<EventModel> findAllByAuthor(@RequestParam String author){return eventService.findAllByAuthor(author);}
+
 
 }
